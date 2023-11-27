@@ -1,0 +1,17 @@
+version: '3.9'
+
+services:
+  notification:
+    container_name: tagging-service-1
+    image: notification-service
+    build: 
+      context: .
+      dockerfile: dockerfile
+    ports:
+      - "30082:30082"
+    environment:
+      - FLASK_APP=run.py
+      - FLASK_ENV=development
+    volumes:
+      - .:/app
+    restart: on-failure

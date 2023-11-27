@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>PowerMeter Receiver Configuration</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js" integrity="sha384-qpxc/NlRZ5Ow57hnU06OjrRan7N/WQQ4MmU3VoyG4lBZG5hZoXY4ndTdb+bEBDjW" crossorigin="anonymous"></script>
+</head>
+<body>
+
+<h1>PowerMeter Receiver Configuration</h1>
+
+<form id="updateForm">
+    <label for="cameraBaseUrl">Camera Base URL:</label>
+    <input type="text" id="cameraBaseUrl" name="camera_base_url" placeholder="Enter Camera Base URL">
+    <br>
+    <label for="cameraName">Camera Name:</label>
+    <input type="text" id="cameraName" name="camera_name" placeholder="Enter Camera Name">
+    <br>
+    <label for="trainerUrl">Trainer URL:</label>
+    <input type="text" id="trainerUrl" name="trainer_url" placeholder="Enter Trainer URL">
+    <br>
+    <label for="valueKey">Value Key:</label>
+    <input type="text" id="valueKey" name="value_key" placeholder="Enter Value Key">
+    <br>
+    <label for="saveTime">Save Time:</label>
+    <input type="number" id="saveTime" name="save_time" placeholder="Enter Save Time">
+    <br>
+    <label for="threshold">Threshold:</label>
+    <input type="number" id="threshold" name="threshold" placeholder="Enter Threshold">
+    <br>
+    <label for="triggerTime">Trigger Time:</label>
+    <input type="number" id="triggerTime" name="trigger_time" placeholder="Enter Trigger Time">
+    <br>
+    <label for="status">Status:</label>
+    <select id="status" name="status">
+        <option value="1">Active</option>
+        <option value="0">Inactive</option>
+        <option value="-1">Error</option>
+    </select>
+    <br>
+    <button type="button" onclick="updateInfo()">Update Information</button>
+</form>
+    <!-- Labeling Control Buttons -->
+<button onclick="startLabeling()">Start Labeling</button>
+<button onclick="stopLabeling()">Stop Labeling</button>
+
+ <script type="text/javascript">
+        const socket = io.connect('http://121.151.195.170:3003');
+
+        socket.on('connect', function() {
+            socket.emit('message', {data: 'I\'m connected!'});
+        });
+
+        socket.on('response', function(data) {
+            console.log(data);
+        });
+</script>
+
+</body>
+</html>
+
+
