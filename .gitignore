@@ -1,0 +1,11 @@
+# projects
+nohup.out
+*.pid
+
+# env files
+.env
+# IDE files\
+.idea
+
+# pyton
+__pycache__/

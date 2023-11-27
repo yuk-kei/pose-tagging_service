@@ -1,14 +1,16 @@
 import os
 
+from dotenv import load_dotenv
 from flask import Flask, render_template
 from flask_socketio import SocketIO
 from flask_cors import CORS
 
 from .database import MongoDBHandler
 
+load_dotenv()
 socketio = SocketIO(cors_allowed_origins='*')
-mongodb = MongoDBHandler(os.environ.get('MONGODB_URI', 'mongodb://root:password@128.195.151.182:27017/?replicaSet=replicaset'),
-                         os.environ.get('DATABASE_NAME', 'calit2'))
+mongodb = MongoDBHandler(os.environ.get('MONGODB_URI'),
+                         os.environ.get('DATABASE_NAME' ))
 
 
 # mongodb = MongoDBHandler(os.environ.get('MONGODB_URI'), os.environ.get('DATABASE_NAME'))
