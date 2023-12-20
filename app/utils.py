@@ -2,6 +2,38 @@ import math
 import numpy as np
 
 
+def interactive_model_shift(timestamp, additional_parameters=None, shift_time=2, switch=None):
+    # Placeholder for shift time calculation
+    if switch is not None and switch == 1:
+        shift_time = 2.4
+    elif switch is not None and switch == 0:
+        shift_time = 1.4
+    else:
+        shift_time = 2
+
+    tagged_timestamp = timestamp - shift_time * 1000
+    # TODO: Replace with actual shift calculation logic
+    return shift_time, int(tagged_timestamp)
+
+
+def effect_state_detection(previous_value, current_value, threshold):
+    if previous_value != current_value:
+        print(f"value changed from {previous_value} to {current_value}")
+    if previous_value is not None and current_value - previous_value >= threshold and (0 < current_value < 42 or current_value - previous_value >= 30):
+        print(f"previous_value: {previous_value}, current_value: {current_value}, threshold: {threshold}")
+        state = 1
+        switch = 1
+    elif previous_value is not None and previous_value - current_value >= threshold and 0 < previous_value < 28:
+        print(f"previous_value: {previous_value}, current_value: {current_value}, threshold: {threshold}")
+        state = 1
+        switch = 0
+    else:
+        state = 0
+        switch = None
+
+    return state, switch
+
+
 def pre_normalization(data, yaxis=[8, 1], xaxis=[2, 5]):  # original: zaxis=[0, 1], xaxis=[8, 4]
 
     def rotation_2D(theta):

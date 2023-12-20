@@ -3,18 +3,18 @@ from flask import blueprints, request, jsonify
 from app import mongodb
 
 BASE_URL = "http://128.195.151.182:9001/api/data"
-THRESHOLD = 20
+THRESHOLD = 15
 STREAM_SEGMENTER_URL = "http://128.195.151.182:9095/api/v1/web_stream"
 # TRAINER_URL = "http://128.195.151.170:30081"
-SAVE_TIME = 5  # seconds
-TRIGGER_TIME = 0.2  # minutes
-CAMERA_NAME = "pi-cam-3"
+SAVE_TIME = 3   # seconds
+TRIGGER_TIME = 0.1  # minutes
+CAMERA_NAME_LIST = ["pi-cam-3", "pi-cam-6"]
 DEVICE_NAME = "power-meter-14"
 # DEVICE_NAME = "mock-power-meter-1"
 VALUE_KEY = "Current"
 
 receiver = PowerMeterReceiver(base_url=BASE_URL, device_name=DEVICE_NAME, threshold=THRESHOLD, save_time=SAVE_TIME,
-                              camera_base_url=STREAM_SEGMENTER_URL, camera_name=CAMERA_NAME, trigger_time=TRIGGER_TIME,
+                              camera_base_url=STREAM_SEGMENTER_URL, camera_name_list=CAMERA_NAME_LIST, trigger_time=TRIGGER_TIME,
                               value_key=VALUE_KEY, mongo_db=mongodb, frequency=0)
 print("Starting receiver...")
 receiver.start()
@@ -33,7 +33,7 @@ def update_info():
     if 'stream_url' in data:
         receiver.stream_url = data['stream_url']
     if 'camera_name' in data:
-        receiver.camera_name = data['camera_name']
+        receiver.camera_name_list = data['camera_name_list']
     if 'device_name' in data:
         receiver.device_name = data['device_name']
     if 'trainer_url' in data:
@@ -62,7 +62,7 @@ def update_info():
 def get_info():
     info = {
         "camera_base_url": receiver.camera_base_url,
-        "camera_name": receiver.camera_name,
+        "camera_name_list": receiver.camera_name_list,
         "stream_url": receiver.stream_url,
         "device_name": receiver.device_name,
         "has_pose": receiver.has_pose,
